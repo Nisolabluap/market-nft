@@ -5,9 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import images from '../assets';
-import { Button } from '.';
+import Button from './Button';
 
-const MenuItems = ({ isMobile, active, setActive }) => {
+const MenuItems = ({ isMobile, active, setActive, setIsOpen }) => {
   const generateLink = (i) => {
     switch (i) {
       case 0:
@@ -23,7 +23,7 @@ const MenuItems = ({ isMobile, active, setActive }) => {
 
   return (
     <ul className={`list-none flexCenter flex-row ${isMobile && 'flex-col h-full'}`}>
-      {['Explore NFTs', 'Listed NFTs', 'My NFTs'].map((item, i) => (
+      {['Explorați NFT-urile', 'NFT-uri listate', 'NFT-urile mele'].map((item, i) => (
         <li
           key={i}
           onClick={() => {
@@ -44,11 +44,11 @@ const MenuItems = ({ isMobile, active, setActive }) => {
   );
 };
 
-const ButtunGroup = ({ setActive, router }) => {
+const ButtonGroup = ({ setActive, router }) => {
   const hasConnected = true;
   return hasConnected ? (
     <Button
-      btnName="Create"
+      btnName="Creați"
       classStyles="mx-2 rounded-xl"
       handleClick={() => {
         setActive('');
@@ -57,7 +57,7 @@ const ButtunGroup = ({ setActive, router }) => {
     />
   ) : (
     <Button
-      btnName="Connect"
+      btnName="Conectați-vă"
       classStyles="mx-2 rounded-xl"
       handleClick={() => {}}
     />
@@ -67,14 +67,14 @@ const ButtunGroup = ({ setActive, router }) => {
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
   const router = useRouter();
-  const [active, setActive] = useState('Explore NFTs');
-  const [isOpen, setisOpen] = useState(false);
+  const [active, setActive] = useState('E');
+  const [isOpen, setIsOpen] = useState(false);
 
   console.log({ theme });
 
   return (
     <nav className="flexBetween w-full fixed z-10 p-4 flex-row border-b dark:bg-nft-dark bg-white dark:border-nft-black-1 border-nft-gray-1">
-      <div className="flex flex-1 flex-row justify-start">
+      <div className="flex flex-1/2 flex-row justify-start">
         <Link href="/">
           <div className="flexCenter md:hidden cursor-pointer" onClick={() => {}}>
             <Image src={images.logo02} style={{ objectFit: 'contain' }} width={52} height={52} alt="logo" />
@@ -89,7 +89,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex flex-initial flex-row justify-end">
-        <div className="flex items-center mr2">
+        <div className="flex items-center mr-2">
           <input type="checkbox" className="checkbox" id="checkbox" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
           <label htmlFor="checkbox" className="flexBetween w-8 h-4 bg-black rounded-2xl p-1 relative label">
             <i className="fas fa-sun" />
@@ -100,34 +100,32 @@ const Navbar = () => {
         <div className="md:hidden flex">
           <MenuItems active={active} setActive={setActive} />
           <div className="ml-4">
-            <ButtunGroup setActive={setActive} router={router} />
+            <ButtonGroup setActive={setActive} router={router} />
           </div>
         </div>
       </div>
 
       {/* Mobile */}
 
-      <div className="hidden md:flex ml-2">
+      <div className="hidden md:flex ml-2 relative">
         {isOpen
           ? (
             <Image
-              src={images.cross}
+              src={theme === 'light' ? images.cross : images.cross02}
               style={{ objectFit: 'contain' }}
-              width={20}
-              height={20}
+              width={25}
+              height={25}
               alt="close"
-              onClick={() => setisOpen(false)}
-              className={theme === 'light' && 'filter invert'}
+              onClick={() => setIsOpen(false)}
             />
           ) : (
             <Image
-              src={images.menu}
+              src={theme === 'light' ? images.menu : images.menu02}
               style={{ objectFit: 'contain' }}
               width={25}
               height={25}
               alt="menu"
-              onClick={() => setisOpen(true)}
-              className={theme === 'light' && 'filter invert'}
+              onClick={() => setIsOpen(true)}
             />
           )}
 
@@ -137,7 +135,7 @@ const Navbar = () => {
             <MenuItems active={active} setActive={setActive} isMobile />
           </div>
           <div className="p-4 border-t dark:border-nft-black-1 border-nft-gray-1">
-            <ButtunGroup setActive={setActive} router={router} />
+            <ButtonGroup setActive={setActive} router={router} />
           </div>
         </div>
         )}

@@ -5,10 +5,12 @@ import { Navbar, Footer } from '../components';
 import '../styles/globals.css';
 
 const MyApp = ({ Component, pageProps }) => (
-  <ThemeProvider attribute="class">
+  <ThemeProvider attribute="class" style="color-scheme: dark">
     <div className="dark:bg-nft-dark bg-white min-h-screen">
       <Navbar />
-      <Component {...pageProps} />
+      <div className="pt-65">
+        <Component {...pageProps} />
+      </div>
       <Footer />
     </div>
     <Script src="https://kit.fontawesome.com/c56e8d8e17.js" crossOrigin="anonymous" />
